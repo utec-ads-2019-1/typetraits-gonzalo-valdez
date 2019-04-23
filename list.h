@@ -17,23 +17,52 @@ class List {
         List() : head(nullptr) {};
 
         bool find(T search, Node<T> **&pointer) {
-            // TODO
+            Node<T>* n = this->head;
+            for(int i=0;i<this->size;i++){
+                if(n->data==search){
+                    pointer=*n; ///////////////
+                    return true;
+                } else {
+                    n=n->next;
+                }
+            }
+            return false;
         }
+
              
         bool insert(T data) {
-            // TODO
+            Node<T>* node = new Node<T>(data);
+            if (this->head){
+                Node<T>* last = this->head;
+                while (last->next!=nullptr){
+                    last=last->next;
+                }
+                last->next=node;
+                node->prev=last;
+            } else {
+                this->head=node;
+            }
         }
              
         bool remove(T item) {
-            // TODO
+            Node<T>* n;
+            n = find(item,&n);///////////////////
+            n->prev->next=n->next;
+            delete(n);
         }  
              
         int size() {
-            // TODO
+            int count=0;
+            Node<T>* last = this->head;
+            while (last->next!=nullptr){
+                last=last->next;
+                count++;
+            }
+            return count;
         }
 
         T operator[](int index) {
-            // TODO
+
         }
 
         ~List() {
