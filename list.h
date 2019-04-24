@@ -32,14 +32,24 @@ class List {
             Node<T>* newNode = new Node<T>(data);
             Node<T>** ptr;
             if (not find(data,ptr)) {
-                ptr = *newNode;
+                newNode->next=(*ptr)->next;
+                **ptr = *newNode;
             } else {
                 return false;
             }
         }
              
         bool remove(T item) {
-
+            Node<T>** ptr;
+            bool found = find(item,ptr);
+            if (found) {
+                Node<T>* temp = *ptr;
+                ptr=&((*ptr)->next);
+                delete temp;
+                return true;
+            } else {
+                return false;
+            }
         }  
              
         int size() {
@@ -53,11 +63,19 @@ class List {
         }
 
         T operator[](int index) {
-
+            int count=0;
+            Node<T>* last = this->head;
+            if (this->size()<index)
+                throw out_of_range("index>size");
+            while (count<index){
+                last=last->next;
+                count++;
+            }
+            return last->data;
         }
 
         ~List() {
-            // TODO
+            delete this;
         }         
 };
 
