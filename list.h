@@ -33,7 +33,9 @@ class List {
             Node<T>** ptr;
             if (not find(data,ptr)) {
                 newNode->next=(*ptr)->next;
+                // Así no se asigna, esto genera violación de segmento
                 **ptr = *newNode;
+                // No retorna nada, warning
             } else {
                 return false;
             }
@@ -44,6 +46,7 @@ class List {
             bool found = find(item,ptr);
             if (found) {
                 Node<T>* temp = *ptr;
+                // Analiza mejor el como actualizas este puntero
                 ptr=&((*ptr)->next);
                 delete temp;
                 return true;
@@ -75,8 +78,10 @@ class List {
         }
 
         ~List() {
+            // Así no se implementa el destructor, deberías liberar todos los nodos separados
+            // Esto genera segmentation fault
             delete this;
-        }         
+        } 
 };
 
 #endif
